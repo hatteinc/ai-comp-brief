@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIカンプ依頼シート</title>
+  <meta name="description" content="AIカンプと支給素材の扱い、権利確認、責任分担を整理する無料フォーム">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow">AI COMP BRIEF · v0.1</p>
+      <h1>AIカンプ依頼シート</h1>
+      <p>「参考にする」「そのまま使う」「差し替える」を、素材ごとに明確に。</p>
+      <p class="notice">このフォームは合意の下書きです。チェックだけで権利処理や免責が成立するものではありません。</p>
+    </div>
+  </header>
+  <main class="wrap">
+    <form id="brief">
+      <section class="panel"><span class="step">01 / 案件</span><h2>何を制作しますか</h2>
+        <div class="grid"><label>案件名 <input name="project" required placeholder="例：新サービスのLP"></label><label>依頼者 <input name="client" placeholder="会社・担当者"></label><label>制作者 <input name="creator" placeholder="会社・担当者"></label><label>作成日 <input name="date" type="date"></label></div>
+        <label>用途・公開先 <textarea name="usage" rows="2" placeholder="例：Webサイト、SNS広告、日本国内、2026年11月公開"></textarea></label>
+      </section>
+      <section class="panel"><span class="step">02 / 意図</span><h2>カンプをどう扱いますか</h2>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="mode" value="参考のみ" checked><span><strong>参考のみ</strong><small>構成や雰囲気を参考に、具体的な表現は作り直す</small></span></label>
+          <label class="choice"><input type="radio" name="mode" value="支給素材を使用"><span><strong>支給素材を使用</strong><small>指定素材を成果物に使う。使用範囲と権利根拠を記録</small></span></label>
+          <label class="choice"><input type="radio" name="mode" value="権利処理済みに差替"><span><strong>権利処理済みに差替</strong><small>ストック素材や自社素材などに置き換える</small></span></label>
+        </div>
+        <label>残したい要素・変えてよい要素 <textarea name="direction" rows="3" placeholder="例：構成と配色は参考。人物写真・キャッチコピーは作り直す"></textarea></label>
+      </section>
+      <section class="panel"><span class="step">03 / 素材</span><h2>支給素材を1点ずつ記録</h2><p class="help">AI使用が不明なら「不明」を選び、公開前の確認事項にします。</p>
+        <div id="materials"></div><button type="button" class="secondary" id="add-material">＋ 素材を追加</button>
+      </section>
+      <section class="panel"><span class="step">04 / 確認と対応</span><h2>権利と作業の分担</h2>
+        <div class="grid"><label>支給素材の権利確認担当 <input name="rightsOwner" placeholder="例：依頼者"></label><label>第三者申立ての連絡先 <input name="claimContact" placeholder="例：双方の担当者"></label><label>差替素材の費用負担 <input name="replacementCost" placeholder="例：依頼者、事前承認制"></label><label>制作者のAI利用 <select name="creatorAI"><option>事前承認が必要</option><option>利用可（使用内容を開示）</option><option>利用不可</option></select></label></div>
+        <label>支給素材に起因する申立ての費用・損害の分担案 <textarea name="liability" rows="2" placeholder="例：依頼者が提供した素材・指示に起因する範囲を依頼者が負担。制作者が独自に追加した素材は別途協議。契約で確定"></textarea></label>
+        <label>未確認事項・懸念 <textarea name="openIssues" rows="3" placeholder="例：参照画像の出典、人物の肖像利用、モデルの商用利用条件"></textarea></label>
+        <label>機密情報・個人情報のAIサービスへの入力 <select name="dataPolicy"><option>禁止</option><option>事前承認が必要</option><option>許可（条件を別記）</option></select></label>
+        <label>納品物・追加条件 <textarea name="deliverables" rows="3" placeholder="例：編集可能データ、素材ライセンス一覧、2回修正"></textarea></label>
+      </section>
+      <section class="panel"><span class="step">05 / 確認</span><h2>依頼前チェック</h2>
+        <div class="checks"><label><input type="checkbox" name="check-source"> AI使用の有無を素材ごとに確認した</label><label><input type="checkbox" name="check-rights"> 参照物・人物・商標・フォント・ストックの権利を確認した</label><label><input type="checkbox" name="check-terms"> 生成サービスの利用規約と用途を確認した</label><label><input type="checkbox" name="check-scope"> 公開媒体・地域・期間・二次利用を確認した</label><label><input type="checkbox" name="check-response"> 未確認事項、申立て時の対応、費用負担を協議した</label></div>
+        <p class="help">未チェックでも出力できます。未確認のまま公開利用しないための記録として残ります。</p>
+      </section>
+    </form>
+    <section class="panel output"><span class="step">出力</span><h2>共有する依頼文</h2><p class="help">下書きを確認し、契約・発注書に必要な文言を別途合意してください。</p><textarea id="result" readonly rows="20" aria-label="生成された依頼文"></textarea><pre id="print-result"></pre><div class="actions"><button type="button" id="copy">依頼文をコピー</button><button type="button" class="secondary" id="download">Markdownを保存</button><button type="button" class="secondary" id="print">印刷・PDF保存</button></div><p id="status" role="status" aria-live="polite"></p></section>
+  </main>
+  <footer class="wrap"><p>入力内容はこのページ内で処理され、送信されません。ページを閉じると消えます。</p><p><a href="docs/guide.md">記入ガイド</a> · <a href="README.md">プロジェクト</a> · <a href="LICENSE">コード: MIT</a> · <a href="docs/LICENSE.md">文書: CC BY 4.0</a></p></footer>
+  <template id="material-template"><fieldset class="material"><legend>素材 <span class="material-number"></span></legend><button type="button" class="remove" aria-label="この素材を削除">削除</button><div class="grid"><label>素材名・箇所 <input data-field="name" placeholder="例：hero.png / メイン画像"></label><label>この素材の扱い <select data-field="handling"><option>案件全体の指定に従う</option><option>参考のみ</option><option>支給素材を使用</option><option>権利処理済みに差替</option></select></label><label>生成AI使用 <select data-field="ai"><option>不明</option><option>あり</option><option>なし</option></select></label><label>提供者・権利者 <input data-field="provider" placeholder="例：依頼者 / 撮影者"></label><label>生成ツール・モデル・版 <input data-field="model" placeholder="例：サービス名、モデル名、版"></label><label>生成日 <input data-field="generated" type="date"></label></div><label>プロンプト・参照入力（共有不可なら理由と確認方法） <textarea data-field="prompt" rows="2" placeholder="例：プロンプト別添。参照画像は自社撮影。機密のため非公開"></textarea></label><label>権利根拠・許諾条件・未確認事項 <textarea data-field="rights" rows="2" placeholder="例：ストック素材IDとライセンス。商用利用可。人物肖像は未確認"></textarea></label></fieldset></template>
+  <script src="app.js"></script>
+</body>
+</html>
